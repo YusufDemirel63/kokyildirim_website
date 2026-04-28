@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: makakademi_db
+    environment:
+      SA_PASSWORD: "MakAkademi_Password_123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    restart: always
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: makakademi_web
+    ports:
+      - "80:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MakAkademi;User Id=sa;Password=MakAkademi_Password_123!;TrustServerCertificate=True;
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  sql_data:
