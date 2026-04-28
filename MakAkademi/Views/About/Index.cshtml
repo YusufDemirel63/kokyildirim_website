@@ -1,0 +1,107 @@
+@{
+    ViewData["Title"] = "Hakkımda";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Hakkımda</h1>
+        <p>Tanışalım, matematiğe birlikte yeni bir bakış açısı getirelim</p>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <div class="about-intro">
+            <div class="about-image">
+                <img src="~/images/profile.jpg" alt="Muhammet Ali Kökyıldırım" class="profile-photo">
+            </div>
+            <div class="about-text">
+                <h2>Muhammet Ali Kökyıldırım</h2>
+                <p class="subtitle">Elektrik-Elektronik Mühendisliği Öğrencisi</p>
+                <p class="description">
+                    Yaklaşık 5 yıldır ilkokul, ortaokul ve lise düzeyindeki öğrencilere birebir ve grup matematik dersleri veriyor,
+                    aynı zamanda akademik koçluk yapıyorum.
+                </p>
+                <p class="description">
+                    Mühendislikte kazandığım analitik düşünme ve problem çözme becerilerini, öğrencilerime matematiği sadece
+                    öğrenmeleri için değil, anlamaları ve uygulayabilmeleri için aktarıyorum.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="why-section">
+    <div class="container">
+        <div class="content-box">
+            <h2>Neden Bu İşi Yapıyorum?</h2>
+            <blockquote>
+                Bu işi hiçbir zaman yalnızca bir meslek olarak görmedim.
+                Benim için ders anlatmak; bir öğrencinin geleceğine dokunmak, onun kendine olan güvenini yeniden kazanmasına katkı sağlamak demektir.
+            </blockquote>
+            <p>Matematik her zaman ilgimi çeken bir alan oldu, ancak öğrencilerimle çalışmaya başladıktan sonra asıl amacımın formül öğretmek değil, <strong>öğrenmeyi öğretmek</strong> olduğunu fark ettim.</p>
+            <div class="quote-box">"Gerçek öğretmenlik, bilginin öğrencinin geleceğine yön verdiği anda başlar."</div>
+        </div>
+    </div>
+</section>
+
+<section class="methods-section">
+    <div class="container">
+        <h2 class="section-title">Kullandığım Eğitim Metotları</h2>
+        <div class="methods-grid">
+            @{
+                var methods = new[] {
+                    ("1", "Kişiye Özel Öğrenme Analizi", "Her öğrencinin seviyesini ve öğrenme tarzını analiz eder, tamamen ona uygun bir çalışma planı oluştururum."),
+                    ("2", "Basamaklı Anlatım Tekniği", "Konuları temelden adım adım sadeleştirerek kalıcı ve anlaşılır bir öğrenme süreci sağlarım."),
+                    ("3", "Aktif Katılım ve Soru Düşünme", "Derslerde öğrenciyi sadece dinleyen değil, düşünerek üreten bir katılımcı haline getiririm."),
+                    ("4", "Sistematik Tekrar ve Zaman Yönetimi", "Düzenli tekrarlar ve planlı çalışma alışkanlığıyla bilginin kalıcılığını artırırım."),
+                    ("5", "Günlük Takip ve Dijital Disiplin", "Öğrencilerimin çalışma düzenini gün boyu takip eder, teknolojiyi verimli kullanmaları için dijital alışkanlıklarını düzenlerim."),
+                    ("6", "Motivasyon ve Koçluk Desteği", "Hedef belirleme, ilerleme takibi ve özgüven kazandırma süreçleriyle öğrenciyi sürekli motive ederim."),
+                    ("7", "Teknoloji Destekli Öğrenme", "Modern dijital araçlarla dersleri etkileşimli, ölçülebilir ve keyifli hale getiririm.")
+                };
+            }
+            @foreach (var (num, title, desc) in methods)
+            {
+                <div class="method-card">
+                    <div class="method-number">@num</div>
+                    <h3>@title</h3>
+                    <p>@desc</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="values-section">
+    <div class="container">
+        <div class="content-box dark">
+            <h2>Değerlerim ve Öğretmenlik İlkelerim</h2>
+            <div class="values-list">
+                @{
+                    var values = new[] {
+                        "Her öğrencinin öğrenme şekli farklıdır, ancak başarı sadece çaba ve sorumlulukla gelir.",
+                        "Öğretmenlik, sadece bilgiyi anlatmak değil; bilgiyi doğru şekilde aktarabilmektir.",
+                        "Eğitimde samimiyet kadar ciddiyet de şarttır. Sıcak bir iletişim kurarım ama sürecin bir oyun olmadığını hissettiririm.",
+                        "Velilerle ilişkim tamamen şeffaflık ve güven üzerine kuruludur.",
+                        "Gerçek eğitim, yalnızca başarı değil; disiplin, sorumluluk ve karakter kazandırmaktır."
+                    };
+                }
+                @foreach (var v in values)
+                {
+                    <div class="value-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>@v</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-simple">
+    <div class="container">
+        <h2>Benimle Çalışmaya Hazır mısınız?</h2>
+        <p>Ücretsiz tanışma dersi için hemen iletişime geçin</p>
+        <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-lg">Hemen Başla</a>
+    </div>
+</section>

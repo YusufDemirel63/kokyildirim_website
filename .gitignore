@@ -1,0 +1,76 @@
+## Ignore Visual Studio / .NET ##
+*.rsuser
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## User-specific files ##
+*.suo
+*.user
+*.userosscache
+*.sln.docview
+
+## Build results ##
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+
+## NuGet ##
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+## ASP.NET Scaffolding ##
+ScaffoldingReadMe.txt
+
+## Environment & Secrets ##
+appsettings.Development.json
+appsettings.Production.json
+.env
+*.env
+
+## Publishing ##
+*publish/
+*.pubxml
+*.pubxml.user
+
+## Test Results ##
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+## Rider ##
+.idea/
+*.sln.iml
+
+## Visual Studio Code ##
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## OS Generated ##
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Django Yedek (silinebilir) ##
+_django_backup/
+
+## Uploads (kullanıcı içerikleri — repo'ya dahil etme) ##
+MakAkademi/wwwroot/uploads/

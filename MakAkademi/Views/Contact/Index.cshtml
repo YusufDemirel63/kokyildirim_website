@@ -1,0 +1,118 @@
+@model MakAkademi.Models.Entities.ContactMessage
+@{
+    ViewData["Title"] = "İletişim";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>İletişim</h1>
+        <p>Sorularınız için bana ulaşın, en kısa sürede yanıt vereceğim</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-wrapper">
+            <div class="contact-info-wrapper">
+                <div class="contact-intro">
+                    <h2>Tanışma Dersi &amp; İletişim</h2>
+                    <blockquote>
+                        Her öğrencinin hedefi, seviyesi ve öğrenme biçimi farklıdır.
+                        Bu nedenle ilk adımda kısa bir tanışma görüşmesi yapar, öğrenciyi yakından tanırız.
+                    </blockquote>
+                    <p>Bu görüşmede seviyesini, hedefini ve en uygun çalışma planını birlikte belirleriz.</p>
+                    <p><strong>Tek bir tanışma dersi bile öğrencinin hangi noktada olduğunu görmek için yeterlidir.</strong></p>
+                </div>
+
+                <div class="contact-details">
+                    <div class="contact-detail-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-detail-text">
+                            <h3>Telefon / WhatsApp</h3>
+                            <a href="tel:+905078089628">507 808 96 28</a>
+                        </div>
+                    </div>
+                    <div class="contact-detail-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-detail-text">
+                            <h3>E-posta</h3>
+                            <a href="mailto:malikokyildirim02@gmail.com">malikokyildirim02@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-detail-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-detail-text">
+                            <h3>Konum</h3>
+                            <p>Online ve Adana'da yüz yüze ders imkânı</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail-item">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <div class="contact-detail-text">
+                            <h3>Cevap Süresi</h3>
+                            <p>Genellikle birkaç saat içinde</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-contact">
+                    <a href="https://wa.me/905078089628" class="btn btn-success btn-lg btn-block" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp ile İletişime Geç
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-form-wrapper">
+                <h3>İletişim Formu</h3>
+                <p>Formu doldurarak bana mesaj gönderebilirsiniz</p>
+
+                <form method="post" asp-action="Index" asp-controller="Contact" class="contact-form">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label asp-for="Name">Ad Soyad *</label>
+                        <input asp-for="Name" class="form-control" placeholder="Adınız Soyadınız" required>
+                        <span asp-validation-for="Name" class="form-error"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="Email">E-posta *</label>
+                            <input asp-for="Email" class="form-control" placeholder="E-posta adresiniz" required>
+                            <span asp-validation-for="Email" class="form-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Phone">Telefon *</label>
+                            <input asp-for="Phone" class="form-control" placeholder="Telefon numaranız" required>
+                            <span asp-validation-for="Phone" class="form-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Subject">Konu *</label>
+                        <input asp-for="Subject" class="form-control" placeholder="Konu" required>
+                        <span asp-validation-for="Subject" class="form-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Message">Mesajınız *</label>
+                        <textarea asp-for="Message" class="form-control" rows="5" placeholder="Mesajınız" required></textarea>
+                        <span asp-validation-for="Message" class="form-error"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        <i class="fas fa-paper-plane"></i> Mesajı Gönder
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-simple">
+    <div class="container">
+        <h2>Hemen Ders Almak İster misiniz?</h2>
+        <p>Rezervasyon yaparak randevunuzu oluşturun</p>
+        <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-lg">Rezervasyon Yap</a>
+    </div>
+</section>

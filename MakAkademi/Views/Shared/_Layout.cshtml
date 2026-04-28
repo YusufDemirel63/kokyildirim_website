@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mühendislik bakış açısıyla matematik özel ders hizmetleri. İlkokul, ortaokul, lise ve üniversite öğrencilerine online ve yüz yüze matematik dersleri.">
+    <meta name="keywords" content="matematik özel ders, TYT matematik, AYT matematik, LGS matematik, online matematik dersi, Adana matematik öğretmeni">
+    <meta name="google-site-verification" content="cWjKDtH2ksDuAR_7uktBwQh1dTtdDcGNjTiwHpsaDJ8" />
+    <title>@ViewData["Title"] - MAK Akademi</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="96x96" href="~/images/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/apple-touch-icon.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/features-modern.css" asp-append-version="true">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <a asp-controller="Home" asp-action="Index" class="logo">
+                    <div class="logo-content">
+                        <h1 class="logo-title">MAK Akademi</h1>
+                        <p class="logo-subtitle">by Muhammet Ali Kökyıldırım</p>
+                    </div>
+                </a>
+
+                <div class="nav-toggle" id="navToggle">
+                    <span></span><span></span><span></span>
+                </div>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a asp-controller="Home" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">Anasayfa</a></li>
+                    <li><a asp-controller="About" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "About" ? "active" : "")">Hakkımda</a></li>
+                    <li><a asp-controller="Lessons" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Lessons" ? "active" : "")">Dersler</a></li>
+                    <li><a asp-controller="Blog" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Blog" ? "active" : "")">Blog</a></li>
+                    <li><a asp-controller="Contact" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Contact" ? "active" : "")">İletişim</a></li>
+                    <li><a asp-controller="Reservation" asp-action="Index" class="btn btn-primary">Ders Al</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notifications -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="messages-container">
+            <div class="alert alert-success">
+                <span>@TempData["Success"]</span>
+                <button class="close-alert">&times;</button>
+            </div>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="messages-container">
+            <div class="alert alert-error">
+                <span>@TempData["Error"]</span>
+                <button class="close-alert">&times;</button>
+            </div>
+        </div>
+    }
+
+    <main>@RenderBody()</main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-brand">MAK Akademi</h3>
+                    <p class="footer-by">by Muhammet Ali Kökyıldırım</p>
+                    <p class="footer-job">Elektrik-Elektronik Mühendisliği Öğrencisi</p>
+                    <p class="footer-desc">5 yıldır matematik özel ders ve akademik koçluk hizmeti veriyorum.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hızlı Bağlantılar</h4>
+                    <ul class="footer-links">
+                        <li><a asp-controller="About" asp-action="Index">Hakkımda</a></li>
+                        <li><a asp-controller="Lessons" asp-action="Index">Dersler</a></li>
+                        <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
+                        <li><a asp-controller="Contact" asp-action="Index">İletişim</a></li>
+                        <li><a asp-controller="Reservation" asp-action="Index">Rezervasyon</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-phone"></i><a href="tel:+905078089628">507 808 96 28</a></li>
+                        <li><i class="fas fa-envelope"></i><a href="mailto:malikokyildirim02@gmail.com">malikokyildirim02@gmail.com</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i><span>Adana</span></li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="https://wa.me/905078089628" target="_blank" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MAK Matematik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/905078089628" class="whatsapp-float" target="_blank" title="WhatsApp ile iletişime geç">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

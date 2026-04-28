@@ -1,0 +1,82 @@
+@model IEnumerable<MakAkademi.Models.Entities.Testimonial>
+@{
+    ViewData["Title"] = "Öğrenci Yorumları";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Öğrenci Yorumları</h1>
+        <p>Başarı hikayelerinden bazılarını okuyun</p>
+    </div>
+</section>
+
+<section class="testimonials-page">
+    <div class="container">
+        @if (Model.Any())
+        {
+            <div class="testimonials-full-grid">
+                @foreach (var t in Model)
+                {
+                    <div class="testimonial-full-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="testimonial-info">
+                                <h3>@t.StudentName</h3>
+                                <p>@t.StudentLevel</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="@(i <= t.Rating ? "fas" : "far") fa-star"></i>
+                            }
+                        </div>
+                        <p class="testimonial-text">"@t.Comment"</p>
+                        <div class="testimonial-date">
+                            <i class="far fa-calendar"></i>
+                            @t.CreatedAt.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="pagination">
+                    @if (currentPage > 1)
+                    {
+                        <a href="?page=@(currentPage - 1)" class="page-link">
+                            <i class="fas fa-chevron-left"></i> Önceki
+                        </a>
+                    }
+                    <span class="page-info">Sayfa @currentPage / @totalPages</span>
+                    @if (currentPage < totalPages)
+                    {
+                        <a href="?page=@(currentPage + 1)" class="page-link">
+                            Sonraki <i class="fas fa-chevron-right"></i>
+                        </a>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-content">
+                <i class="fas fa-comments"></i>
+                <p>Henüz yorum bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="cta-simple">
+    <div class="container">
+        <h2>Siz de Bu Başarı Hikayelerinden Biri Olabilirsiniz</h2>
+        <p>Ücretsiz tanışma dersi için iletişime geçin</p>
+        <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-lg">Hemen Başla</a>
+    </div>
+</section>

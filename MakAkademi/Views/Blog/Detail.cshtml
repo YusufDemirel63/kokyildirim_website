@@ -1,0 +1,146 @@
+@model MakAkademi.Models.ViewModels.BlogDetailViewModel
+@{
+    ViewData["Title"] = Model.Post.Title + " | Blog";
+    var trCulture = new System.Globalization.CultureInfo("tr-TR");
+}
+
+<article class="blog-detail">
+    <div class="container">
+        <div class="blog-detail-header">
+            <div class="blog-detail-meta">
+                <span><i class="far fa-calendar"></i> @Model.Post.CreatedAt.ToString("dd MMMM yyyy", trCulture)</span>
+                @if (Model.Post.UpdatedAt != Model.Post.CreatedAt)
+                {
+                    <span><i class="fas fa-sync"></i> Güncelleme: @Model.Post.UpdatedAt.ToString("dd MMMM yyyy", trCulture)</span>
+                }
+            </div>
+            <h1>@Model.Post.Title</h1>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Post.ImagePath))
+        {
+            <div class="blog-detail-image">
+                <img src="@Model.Post.ImagePath" alt="@Model.Post.Title">
+            </div>
+        }
+
+        <div class="blog-detail-content">
+            @Html.Raw(Model.Post.Content)
+        </div>
+
+        <div class="blog-detail-footer">
+            <a asp-controller="Blog" asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Tüm Yazılar
+            </a>
+        </div>
+    </div>
+</article>
+
+<section class="comments-section">
+    <div class="container">
+        <div class="comments-container">
+            <h2 class="section-title">
+                <i class="fas fa-comments"></i> Yorumlar
+                <span class="comment-count">(@Model.Comments.Count())</span>
+            </h2>
+
+            <div class="comment-form-wrapper">
+                <h3>Yorum Ekle</h3>
+                @if (TempData["CommentSuccess"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> @TempData["CommentSuccess"]
+                    </div>
+                }
+                <form method="post" asp-controller="Blog" asp-action="Detail" asp-route-slug="@Model.Post.Slug" class="comment-form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-row-comment">
+                        <div class="form-group">
+                            <label for="first_name">Ad *</label>
+                            <input type="text" id="first_name" name="firstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Soyad *</label>
+                            <input type="text" id="last_name" name="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Yorumunuz *</label>
+                        <textarea id="comment" name="comment" class="form-control" rows="4" required placeholder="Düşüncelerinizi paylaşın..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Yorum Gönder
+                    </button>
+                </form>
+            </div>
+
+            @if (Model.Comments.Any())
+            {
+                <div class="comments-list">
+                    <h3>Tüm Yorumlar</h3>
+                    @foreach (var c in Model.Comments)
+                    {
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <div class="comment-avatar"><i class="fas fa-user-circle"></i></div>
+                                <div class="comment-info">
+                                    <strong class="comment-author">@c.FirstName @c.LastName</strong>
+                                    <span class="comment-date">
+                                        <i class="far fa-clock"></i> @c.CreatedAt.ToString("dd MMMM yyyy, HH:mm", trCulture)
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="comment-body"><p>@c.Comment</p></div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="no-comments">
+                    <i class="far fa-comment-dots"></i>
+                    <p>Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@if (Model.OtherPosts.Any())
+{
+    <section class="related-posts">
+        <div class="container">
+            <h2 class="section-title">Diğer Yazılar</h2>
+            <div class="blog-grid-small">
+                @foreach (var p in Model.OtherPosts)
+                {
+                    <article class="blog-card-small">
+                        @if (!string.IsNullOrEmpty(p.ImagePath))
+                        {
+                            <div class="blog-image-small"><img src="@p.ImagePath" alt="@p.Title"></div>
+                        }
+                        else
+                        {
+                            <div class="blog-image-small placeholder"><i class="fas fa-lightbulb"></i></div>
+                        }
+                        <div class="blog-content-small">
+                            <h3>@p.Title</h3>
+                            <p>@(p.Excerpt?.Length > 80 ? p.Excerpt[..80] + "..." : p.Excerpt)</p>
+                            <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@p.Slug" class="read-more">
+                                Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<section class="cta-simple">
+    <div class="container">
+        <h2>Matematikte Başarıya Ulaşın</h2>
+        <p>Ücretsiz tanışma dersi için hemen iletişime geçin</p>
+        <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-lg">Rezervasyon Yap</a>
+    </div>
+</section>

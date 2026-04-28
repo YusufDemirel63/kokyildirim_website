@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Hata";
+    Layout = "_Layout";
+}
+
+<section class="page-header" style="background: linear-gradient(135deg, #dc3545, #b02a37);">
+    <div class="container">
+        <h1><i class="fas fa-exclamation-triangle"></i> Bir Hata Oluştu</h1>
+        <p>Üzgünüz, bir sorunla karşılaştık.</p>
+    </div>
+</section>
+
+<section style="padding: 5rem 0; text-align: center;">
+    <div class="container">
+        <div style="max-width: 500px; margin: 0 auto;">
+            <div style="font-size: 80px; margin-bottom: 20px;">😕</div>
+            <h2 style="margin-bottom: 15px; color: #333;">Sayfa yüklenemedi</h2>
+            <p style="color: #666; margin-bottom: 30px;">
+                İsteğiniz işlenirken bir hata oluştu. Lütfen tekrar deneyin veya ana sayfaya dönün.
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Ana Sayfa
+                </a>
+                <a asp-controller="Contact" asp-action="Index" class="btn btn-outline">
+                    <i class="fas fa-envelope"></i> İletişim
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

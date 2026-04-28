@@ -1,0 +1,47 @@
+@model MakAkademi.Models.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+@* Mevcut Django home.html içeriği buraya Razor olarak dönüştürülecek *@
+@* Mevcut static/templates/main/home.html referans alınarak doldurulacak *@
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h2>Matematik Korkunu Yen!</h2>
+            <p>Mühendislik bakış açısıyla matematiği anlayın. Birebir özel ders ile hedeflerinize ulaşın.</p>
+            <div class="hero-buttons">
+                <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary">Ders Al</a>
+                <a asp-controller="About" asp-action="Index" class="btn btn-outline">Hakkımda</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.Testimonials.Any())
+{
+    <section class="testimonials-preview">
+        <div class="container">
+            <h2 class="section-title">Öğrenci Yorumları</h2>
+            <div class="testimonials-grid">
+                @foreach (var t in Model.Testimonials)
+                {
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            @for (int i = 0; i < t.Rating; i++) { <span class="star">★</span> }
+                        </div>
+                        <p class="testimonial-comment">"@t.Comment"</p>
+                        <div class="testimonial-author">
+                            <strong>@t.StudentName</strong>
+                            <span>@t.StudentLevel</span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-4">
+                <a asp-controller="Testimonials" asp-action="Index" class="btn btn-outline">Tüm Yorumlar</a>
+            </div>
+        </div>
+    </section>
+}

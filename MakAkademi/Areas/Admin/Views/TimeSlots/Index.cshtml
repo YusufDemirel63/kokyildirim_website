@@ -1,0 +1,68 @@
+@model IEnumerable<MakAkademi.Models.Entities.AvailableTimeSlot>
+@{
+    ViewData["Title"] = "Zaman Dilimleri";
+    ViewData["PageTitle"] = "Zaman Dilimleri";
+    var trCulture = new System.Globalization.CultureInfo("tr-TR");
+}
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="color:#333;">Zaman Dilimleri</h2>
+    <a asp-area="Admin" asp-controller="TimeSlots" asp-action="Create" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Yeni Ekle
+    </a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>Ders Türü</th>
+            <th>Durum</th>
+            <th>Notlar</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7" style="text-align:center;padding:30px;color:#888;">Henüz zaman dilimi eklenmemiş.</td></tr>
+        }
+        @foreach (var slot in Model)
+        {
+            <tr>
+                <td data-label="Tarih">@slot.Date.ToString("dd MMM yyyy", trCulture)</td>
+                <td data-label="Başlangıç">@slot.StartTime.ToString("HH:mm")</td>
+                <td data-label="Bitiş">@slot.EndTime.ToString("HH:mm")</td>
+                <td data-label="Ders Türü">
+                    <span style="padding:3px 8px;border-radius:4px;font-size:12px;background:@(slot.LessonType == MakAkademi.Models.Entities.LessonType.Online ? "#e3f2fd" : slot.LessonType == MakAkademi.Models.Entities.LessonType.Yuzyuze ? "#e8f5e9" : "#fff3e0");color:@(slot.LessonType == MakAkademi.Models.Entities.LessonType.Online ? "#1E90FF" : slot.LessonType == MakAkademi.Models.Entities.LessonType.Yuzyuze ? "#28a745" : "#FF9800");">
+                        @(slot.LessonType == MakAkademi.Models.Entities.LessonType.Online ? "Online" : slot.LessonType == MakAkademi.Models.Entities.LessonType.Yuzyuze ? "Yüz Yüze" : "Her İkisi")
+                    </span>
+                </td>
+                <td data-label="Durum">
+                    @if (slot.IsAvailable)
+                    {
+                        <span style="color:#28a745;font-weight:600;"><i class="fas fa-check-circle"></i> Müsait</span>
+                    }
+                    else
+                    {
+                        <span style="color:#dc3545;font-weight:600;"><i class="fas fa-times-circle"></i> Dolu</span>
+                    }
+                </td>
+                <td data-label="Notlar">@(slot.Notes ?? "-")</td>
+                <td data-label="İşlemler">
+                    <div class="table-actions">
+                        <a asp-area="Admin" asp-controller="TimeSlots" asp-action="Edit" asp-route-id="@slot.Id" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form asp-area="Admin" asp-controller="TimeSlots" asp-action="Delete" asp-route-id="@slot.Id" method="post" style="display:inline" onsubmit="return confirm('Bu zaman dilimini silmek istediğinize emin misiniz?')">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

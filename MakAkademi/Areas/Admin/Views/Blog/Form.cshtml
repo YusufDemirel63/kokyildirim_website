@@ -1,0 +1,79 @@
+@model MakAkademi.Models.Entities.BlogPost
+@{
+    bool isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Blog Yazısı Düzenle" : "Yeni Blog Yazısı";
+    ViewData["PageTitle"] = ViewData["Title"]?.ToString();
+}
+
+<div style="max-width:800px;">
+    <a asp-area="Admin" asp-controller="Blog" asp-action="Index" class="btn btn-secondary" style="margin-bottom:20px;">
+        <i class="fas fa-arrow-left"></i> Listeye Dön
+    </a>
+
+    <div style="background:white;padding:30px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+        <h3 style="margin-bottom:25px;color:#333;">@ViewData["Title"]</h3>
+
+        <form asp-area="Admin" asp-controller="Blog" asp-action="@(isEdit ? "Edit" : "Create")" asp-route-id="@(isEdit ? Model.Id : null)" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="Title">Başlık *</label>
+                <input asp-for="Title" placeholder="Blog yazısı başlığı" required>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Slug">Slug (URL) *</label>
+                <input asp-for="Slug" placeholder="ornek-slug-url" required>
+                <small style="color:#888;">Küçük harf, Türkçe karakter olmadan, tire ile ayrılmış.</small>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Excerpt">Özet *</label>
+                <textarea asp-for="Excerpt" rows="3" placeholder="Blog listesinde görünecek kısa özet..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Content">İçerik *</label>
+                <textarea asp-for="Content" rows="12" placeholder="Blog yazısının tam içeriği (HTML destekler)..." required style="font-family:monospace;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Kapak Görseli</label>
+                <input type="file" name="image" id="image" accept="image/*">
+                @if (isEdit && !string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <div style="margin-top:10px;">
+                        <img src="@Model.ImagePath" style="max-height:120px;border-radius:8px;"> 
+                        <small style="color:#888;display:block;margin-top:5px;">Mevcut görsel. Yeni dosya seçilirse değiştirilir.</small>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group" style="display:flex;align-items:center;gap:10px;">
+                <input asp-for="IsPublished" type="checkbox" style="width:auto;">
+                <label asp-for="IsPublished" style="margin-bottom:0;">Yayınla (Aktif)</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px;">
+                <i class="fas fa-save"></i> @(isEdit ? "Güncelle" : "Oluştur")
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Başlıktan otomatik slug oluştur
+    document.getElementById('Title')?.addEventListener('input', function () {
+        const slugField = document.getElementById('Slug');
+        if (!slugField || slugField.dataset.manual === 'true') return;
+        slugField.value = this.value
+            .toLowerCase()
+            .replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ç/g,'c')
+            .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim();
+    });
+    document.getElementById('Slug')?.addEventListener('input', function () {
+        this.dataset.manual = 'true';
+    });
+</script>
+}

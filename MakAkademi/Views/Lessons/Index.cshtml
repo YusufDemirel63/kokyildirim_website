@@ -1,0 +1,103 @@
+@{
+    ViewData["Title"] = "Dersler ve Programlar";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Dersler ve Programlar</h1>
+        <p>Her seviye için özel çalışma planları ve etkili öğrenme metodları</p>
+    </div>
+</section>
+
+<section class="lessons-detail">
+    <div class="container">
+        <div class="lesson-detail-card">
+            <div class="lesson-detail-icon">📚</div>
+            <div class="lesson-detail-content">
+                <h2>İlkokul Matematik (4-5. Sınıf)</h2>
+                <p class="lesson-intro">Matematiğe sağlam bir temel atmak, ilerleyen yıllardaki başarı için en büyük adımdır. Bu seviyede dört işlem becerilerini, sayı kavramını ve problem çözme alışkanlığını oyunlaştırarak kazandırırım.</p>
+                <div class="lesson-goal"><strong>Hedef:</strong> Temel kazanım ve özgüven oluşturmak.</div>
+            </div>
+        </div>
+
+        <div class="lesson-detail-card featured">
+            <div class="lesson-detail-badge">En Popüler</div>
+            <div class="lesson-detail-icon">🧩</div>
+            <div class="lesson-detail-content">
+                <h2>Ortaokul Matematik (6-8. Sınıf / LGS Hazırlık)</h2>
+                <p class="lesson-intro">Ortaokul dönemi, LGS'ye giden yolun temelidir. 6. ve 7. sınıftan itibaren sınav sistemine uygun şekilde çalışmaya başlar, düzenli problem çözme ve işlem becerisi geliştirme alışkanlıkları kazandırırım.</p>
+                <div class="lesson-goal"><strong>Hedef:</strong> LGS'ye bilinçli, sistemli ve özgüvenli hazırlık.</div>
+            </div>
+        </div>
+
+        <div class="lesson-detail-card">
+            <div class="lesson-detail-icon">🧮</div>
+            <div class="lesson-detail-content">
+                <h2>Lise Matematik (9-12. Sınıf / TYT-AYT)</h2>
+                <p class="lesson-intro">Lise döneminde amaç, bilgiyi uygulamaya ve analiz etmeye dönüştürmektir. 9-10. sınıfta temeli güçlendirir, 11-12. sınıfta TYT-AYT soru tarzlarına uygun özel test ve denemeler uygularım.</p>
+                <div class="lesson-goal"><strong>Hedef:</strong> TYT-AYT'de planlı, stratejik ve özgüvenli başarı.</div>
+            </div>
+        </div>
+
+        <div class="lesson-detail-card">
+            <div class="lesson-detail-icon">🧠</div>
+            <div class="lesson-detail-content">
+                <h2>Akademik Koçluk ve Rehberlik</h2>
+                <p class="lesson-intro">Başarı sadece ders çalışmakla değil, doğru sistemi kurmakla mümkündür. Zaman yönetimi, dikkat, motivasyon ve planlama konularında birebir destek sağlar; haftalık takiple hem öğrenci hem veliyle iletişimde kalırım.</p>
+                <div class="lesson-goal"><strong>Hedef:</strong> Süreklilik, disiplin ve güçlü bir öğrenme sistemi oluşturmak.</div>
+            </div>
+        </div>
+
+        <div class="lesson-detail-card">
+            <div class="lesson-detail-icon">👥</div>
+            <div class="lesson-detail-content">
+                <h2>Grup Dersleri</h2>
+                <p class="lesson-intro">Grup derslerinde öğrenciler birlikte öğrenir, birbirini motive eder ve paylaşım yoluyla gelişir. Gruplar seviye ve hedef bazlı oluşturulur.</p>
+                <div class="lesson-goal"><strong>Hedef:</strong> Etkileşimli ve motive edici bir öğrenme ortamı oluşturmak.</div>
+            </div>
+        </div>
+
+        <div class="lesson-detail-card">
+            <div class="lesson-detail-icon">💻</div>
+            <div class="lesson-detail-content">
+                <h2>Online Ders Seçeneği</h2>
+                <p class="lesson-intro">Tüm programlar çevrim içi olarak da yapılabilir. Dijital tahta, interaktif materyaller ve özel notlarla dersler yüz yüze veriminde gerçekleşir.</p>
+                <div class="lesson-goal"><strong>Hedef:</strong> Zaman ve mekândan bağımsız, modern bir öğrenme deneyimi sunmak.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title">Sık Sorulan Sorular</h2>
+        <div class="faq-grid">
+            @{
+                var faqs = new[] {
+                    ("fa-clock", "Dersler ne kadar sürüyor?", "Dersler ortalama 45-60 dakika sürer. Süre, öğrencinin dikkat süresine ve konunun yoğunluğuna göre ayarlanır."),
+                    ("fa-laptop", "Dersler online mı yoksa yüz yüze mi?", "Dersler hem online hem de yüz yüze (Adana'da) yapılabiliyor. Online derslerde sesli-görsel bağlantı, dijital tahta kullanılır."),
+                    ("fa-gift", "Tanışma dersi ücretli mi?", "Tanışma dersi ücretsizdir. Bu ders, öğrenciyi tanımak ve en uygun yöntemi belirlemek içindir."),
+                    ("fa-graduation-cap", "Hangi sınıflara ders veriyorsunuz?", "6, 7 ve 8. sınıflar için LGS odaklı, 9-12. sınıflar için TYT-AYT hazırlık programları uyguluyorum."),
+                    ("fa-book-open", "Kaynakları siz mi sağlıyorsunuz?", "Evet. Öğrencinin seviyesine göre kaynakları ben belirliyorum. Gerektiğinde özel hazırladığım özet notlar kullanıyorum."),
+                    ("fa-calendar-alt", "Haftada kaç ders öneriyorsunuz?", "LGS veya TYT-AYT hazırlığında genellikle haftada 2 ders, temel destek programlarında ise haftada 1 ders yeterlidir.")
+                };
+            }
+            @foreach (var (icon, q, a) in faqs)
+            {
+                <div class="faq-item">
+                    <h3><i class="fas @icon"></i> @q</h3>
+                    <p>@a</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="cta-simple">
+    <div class="container">
+        <h2>Senin için en uygun çalışma planını birlikte oluşturalım.</h2>
+        <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-lg">
+            <i class="fas fa-calendar-check"></i> Hemen Rezervasyon Yap
+        </a>
+    </div>
+</section>

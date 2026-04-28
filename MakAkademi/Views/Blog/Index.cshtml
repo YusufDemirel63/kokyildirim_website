@@ -1,0 +1,88 @@
+@model IEnumerable<MakAkademi.Models.Entities.BlogPost>
+@{
+    ViewData["Title"] = "Blog | Matematik İpuçları ve Rehberlik";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+}
+
+<section class="page-header blog-header">
+    <div class="container">
+        <h1><i class="fas fa-lightbulb"></i> Matematik Blog</h1>
+        <p>Matematik ipuçları, öğrenme teknikleri ve sınav stratejileri</p>
+    </div>
+</section>
+
+<section class="blog-section">
+    <div class="container">
+        @if (Model.Any())
+        {
+            <div class="blog-grid">
+                @foreach (var post in Model)
+                {
+                    <article class="blog-card">
+                        @if (!string.IsNullOrEmpty(post.ImagePath))
+                        {
+                            <div class="blog-image">
+                                <img src="@post.ImagePath" alt="@post.Title">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="blog-image placeholder">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                        }
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> @post.CreatedAt.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
+                            </div>
+                            <h2 class="blog-title">@post.Title</h2>
+                            <p class="blog-excerpt">@post.Excerpt</p>
+                            <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@post.Slug" class="btn btn-secondary">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                }
+            </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="pagination">
+                    @if (currentPage > 1)
+                    {
+                        <a href="?page=@(currentPage - 1)" class="page-link">
+                            <i class="fas fa-chevron-left"></i> Önceki
+                        </a>
+                    }
+                    <span class="page-info">Sayfa @currentPage / @totalPages</span>
+                    @if (currentPage < totalPages)
+                    {
+                        <a href="?page=@(currentPage + 1)" class="page-link">
+                            Sonraki <i class="fas fa-chevron-right"></i>
+                        </a>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-content">
+                <i class="fas fa-file-alt"></i>
+                <h3>Henüz Blog Yazısı Bulunmuyor</h3>
+                <p>Yakında matematik ipuçları, öğrenme stratejileri ve sınav teknikleri hakkında faydalı içerikler paylaşacağım.</p>
+                <div style="margin-top: 2rem;">
+                    <a asp-controller="Contact" asp-action="Index" class="btn btn-primary">Öğrenmek İstediklerinizi Bildirin</a>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="cta-simple">
+    <div class="container">
+        <h2>Matematikte Başarıya Hazır mısınız?</h2>
+        <p>Ücretsiz tanışma dersi için iletişime geçin</p>
+        <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary btn-lg">Hemen Başla</a>
+    </div>
+</section>

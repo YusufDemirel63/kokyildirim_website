@@ -1,0 +1,93 @@
+@model IEnumerable<MakAkademi.Models.Entities.ReservationRequest>
+@{
+    ViewData["Title"] = "Rezervasyonlar";
+    ViewData["PageTitle"] = "Rezervasyonlar";
+    var trCulture = new System.Globalization.CultureInfo("tr-TR");
+    string statusFilter = ViewBag.StatusFilter ?? "all";
+}
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+    <h2 style="color:#333;">Rezervasyonlar</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        @foreach (var (val, label) in new[] { ("all","Tümü"), ("Beklemede","Beklemede"), ("Onaylandi","Onaylandı"), ("Tamamlandi","Tamamlandı"), ("Iptal","İptal Edildi") })
+        {
+            <a href="?status=@val" class="btn @(statusFilter == val ? "btn-primary" : "btn-secondary")" style="font-size:13px;padding:6px 14px;">@label</a>
+        }
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>İletişim</th>
+            <th>Seviye</th>
+            <th>Ders Türü</th>
+            <th>Tarih/Saat</th>
+            <th>Durum</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7" style="text-align:center;padding:30px;color:#888;">Rezervasyon bulunamadı.</td></tr>
+        }
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td data-label="Ad Soyad">
+                    <strong>@r.Name</strong><br>
+                    <small style="color:#888;">@r.CreatedAt.ToString("dd MMM yyyy HH:mm", trCulture)</small>
+                </td>
+                <td data-label="İletişim">
+                    <div>@r.Email</div>
+                    <div>@r.Phone</div>
+                </td>
+                <td data-label="Seviye">@r.EducationLevel</td>
+                <td data-label="Ders Türü">@r.LessonType</td>
+                <td data-label="Tarih/Saat">
+                    @if (r.SelectedDate.HasValue)
+                    {
+                        <span>@r.SelectedDate.Value.ToString("dd MMM yyyy", trCulture)</span><br>
+                        <span>@r.SelectedTime?.ToString("HH:mm")</span>
+                    }
+                    else { <span style="color:#888;">-</span> }
+                </td>
+                <td data-label="Durum">
+                    @{
+                        var (bg, fg) = r.Status switch {
+                            MakAkademi.Models.Entities.ReservationStatus.Onaylandi => ("#d4edda", "#155724"),
+                            MakAkademi.Models.Entities.ReservationStatus.Iptal => ("#f8d7da", "#721c24"),
+                            MakAkademi.Models.Entities.ReservationStatus.Tamamlandi => ("#e8f5e9", "#1b5e20"),
+                            _ => ("#fff3e0", "#856404")
+                        };
+                    }
+                    <span style="padding:3px 10px;border-radius:4px;font-size:12px;font-weight:600;background:@bg;color:@fg;">@r.Status</span>
+                </td>
+                <td data-label="İşlemler">
+                    <div class="table-actions">
+                        <a asp-area="Admin" asp-controller="Reservations" asp-action="Detail" asp-route-id="@r.Id" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        @if (r.Status == MakAkademi.Models.Entities.ReservationStatus.Beklemede)
+                        {
+                            <form asp-area="Admin" asp-controller="Reservations" asp-action="UpdateStatus" method="post" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@r.Id">
+                                <input type="hidden" name="status" value="1">
+                                <button type="submit" class="btn btn-success btn-sm" title="Onayla"><i class="fas fa-check"></i></button>
+                            </form>
+                            <form asp-area="Admin" asp-controller="Reservations" asp-action="UpdateStatus" method="post" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@r.Id">
+                                <input type="hidden" name="status" value="2">
+                                <button type="submit" class="btn btn-danger btn-sm" title="Reddet"><i class="fas fa-times"></i></button>
+                            </form>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

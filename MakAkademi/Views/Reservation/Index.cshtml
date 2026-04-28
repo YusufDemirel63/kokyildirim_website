@@ -1,0 +1,146 @@
+@{
+    ViewData["Title"] = "Ders Rezervasyonu";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1><i class="fas fa-calendar-check"></i> Ders Rezervasyonu</h1>
+        <p>Müsait olduğunuz tarih ve saati seçin</p>
+    </div>
+</section>
+
+<section class="reservation-section">
+    <div class="container">
+        <div class="reservation-wrapper">
+            <!-- Takvim -->
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h3 id="currentMonth">Yükleniyor...</h3>
+                    <div class="calendar-nav">
+                        <button id="prevMonth"><i class="fas fa-chevron-left"></i> Önceki</button>
+                        <button id="nextMonth">Sonraki <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendar"></div>
+
+                <!-- Zaman Dilimleri -->
+                <div class="time-slots-container" id="timeSlotsContainer">
+                    <div class="time-slots-header">
+                        <h4><i class="fas fa-clock"></i> Müsait Saatler</h4>
+                        <p style="color: var(--text-light);">Bir zaman dilimi seçin</p>
+                    </div>
+                    <div class="time-slots-grid" id="timeSlots"></div>
+                </div>
+            </div>
+
+            <!-- Rezervasyon Formu -->
+            <div class="reservation-form-section" id="reservationForm">
+                <div class="selected-info">
+                    <h4><i class="fas fa-check-circle"></i> Seçiminiz</h4>
+                    <div class="selected-info-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="selectedDateDisplay">-</span>
+                    </div>
+                    <div class="selected-info-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="selectedTimeDisplay">-</span>
+                    </div>
+                </div>
+
+                <form method="post" asp-action="Index" asp-controller="Reservation" id="finalReservationForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="selectedSlotId" id="selectedSlotId">
+
+                    <div class="form-group">
+                        <label for="name">Ad Soyad *</label>
+                        <input type="text" name="name" id="name" class="form-control" required placeholder="Adınız Soyadınız">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">E-posta *</label>
+                            <input type="email" name="email" id="email" class="form-control" required placeholder="E-posta adresiniz">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon *</label>
+                            <input type="tel" name="phone" id="phone" class="form-control" required placeholder="507 808 96 28">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="educationLevel">Eğitim Seviyesi *</label>
+                            <select name="educationLevel" id="educationLevel" class="form-control" required>
+                                <option value="">Seçiniz</option>
+                                <option value="0">İlkokul (4-5. Sınıf)</option>
+                                <option value="1">6. Sınıf</option>
+                                <option value="2">7. Sınıf</option>
+                                <option value="3">8. Sınıf (LGS)</option>
+                                <option value="4">9. Sınıf</option>
+                                <option value="5">10. Sınıf</option>
+                                <option value="6">11. Sınıf</option>
+                                <option value="7">12. Sınıf (TYT-AYT)</option>
+                                <option value="8">Üniversite</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lessonType">Ders Türü *</label>
+                            <select name="lessonType" id="lessonType" class="form-control" required>
+                                <option value="">Seçiniz</option>
+                                <option value="0">Online</option>
+                                <option value="1">Yüz Yüze</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Ek Mesaj (Opsiyonel)</label>
+                        <textarea name="message" id="message" class="form-control" rows="3" placeholder="Varsa eklemek istediğiniz notlar..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        <i class="fas fa-paper-plane"></i> Rezervasyonu Tamamla
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+<style>
+    .calendar-container { background: var(--white); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--box-shadow); margin-bottom: 2rem; }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .calendar-header h3 { font-size: 1.5rem; color: var(--text-dark); }
+    .calendar-nav { display: flex; gap: 1rem; }
+    .calendar-nav button { background: var(--light-color); border: none; padding: .5rem 1rem; border-radius: var(--border-radius); cursor: pointer; transition: var(--transition); font-weight: 500; }
+    .calendar-nav button:hover { background: var(--primary-color); color: white; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: .5rem; }
+    .calendar-day-header { text-align: center; padding: 1rem; font-weight: 600; color: var(--text-light); font-size: .9rem; }
+    .calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #e5e7eb; border-radius: var(--border-radius); cursor: pointer; transition: var(--transition); position: relative; min-height: 60px; }
+    .calendar-day.empty { border: none; cursor: default; }
+    .calendar-day.past { opacity: .3; cursor: not-allowed; }
+    .calendar-day.available { border-color: #1E90FF; background: rgba(30,144,255,.07); }
+    .calendar-day.available:hover { background: rgba(30,144,255,.15); transform: scale(1.05); box-shadow: 0 4px 12px rgba(30,144,255,.2); }
+    .calendar-day-number { font-size: 1.2rem; font-weight: 600; }
+    .calendar-day.available .calendar-day-number { color: #1E90FF; }
+    .calendar-day-indicator { position: absolute; bottom: 5px; width: 6px; height: 6px; background: #1E90FF; border-radius: 50%; }
+    .time-slots-container { margin-top: 2rem; display: none; }
+    .time-slots-container.active { display: block; }
+    .time-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+    .time-slot { background: white; border: 2px solid #e5e7eb; padding: 1rem; border-radius: var(--border-radius); text-align: center; cursor: pointer; transition: var(--transition); }
+    .time-slot:hover, .time-slot.selected { border-color: #1E90FF; background: rgba(30,144,255,.07); transform: translateY(-3px); }
+    .time-slot-time { font-size: 1.1rem; font-weight: 600; margin-bottom: .5rem; }
+    .time-slot-type { font-size: .85rem; color: var(--text-light); }
+    .reservation-form-section { background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--box-shadow); display: none; }
+    .reservation-form-section.active { display: block; }
+    .selected-info { background: #f0f7ff; padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem; border-left: 4px solid #1E90FF; }
+    .selected-info h4 { margin-bottom: 1rem; }
+    .selected-info-item { display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; }
+    .selected-info-item i { color: #1E90FF; }
+</style>
+}
+
+@section Scripts {
+<script src="~/js/calendar.js" asp-append-version="true"></script>
+}

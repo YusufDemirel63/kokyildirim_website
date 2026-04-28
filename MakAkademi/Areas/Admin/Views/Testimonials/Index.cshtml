@@ -1,0 +1,75 @@
+@model IEnumerable<MakAkademi.Models.Entities.Testimonial>
+@{
+    ViewData["Title"] = "Yorumlar";
+    ViewData["PageTitle"] = "Öğrenci Yorumları";
+    var trCulture = new System.Globalization.CultureInfo("tr-TR");
+}
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 style="color:#333;">Öğrenci Yorumları</h2>
+    <a asp-area="Admin" asp-controller="Testimonials" asp-action="Create" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Yeni Yorum
+    </a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Öğrenci</th>
+            <th>Seviye</th>
+            <th>Puan</th>
+            <th>Yorum (Özet)</th>
+            <th>Durum</th>
+            <th>Tarih</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7" style="text-align:center;padding:30px;color:#888;">Henüz yorum eklenmemiş.</td></tr>
+        }
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td data-label="Öğrenci"><strong>@t.StudentName</strong></td>
+                <td data-label="Seviye">@t.StudentLevel</td>
+                <td data-label="Puan">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="@(i <= t.Rating ? "fas" : "far") fa-star" style="color:#FFD166;font-size:12px;"></i>
+                    }
+                </td>
+                <td data-label="Yorum">@(t.Comment.Length > 60 ? t.Comment[..60] + "..." : t.Comment)</td>
+                <td data-label="Durum">
+                    @if (t.IsActive)
+                    {
+                        <span style="color:#28a745;font-weight:600;"><i class="fas fa-eye"></i> Aktif</span>
+                    }
+                    else
+                    {
+                        <span style="color:#dc3545;font-weight:600;"><i class="fas fa-eye-slash"></i> Gizli</span>
+                    }
+                </td>
+                <td data-label="Tarih">@t.CreatedAt.ToString("dd MMM yyyy", trCulture)</td>
+                <td data-label="İşlemler">
+                    <div class="table-actions">
+                        <a asp-area="Admin" asp-controller="Testimonials" asp-action="Edit" asp-route-id="@t.Id" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form asp-area="Admin" asp-controller="Testimonials" asp-action="Toggle" asp-route-id="@t.Id" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn @(t.IsActive ? "btn-secondary" : "btn-success") btn-sm" title="@(t.IsActive ? "Gizle" : "Göster")">
+                                <i class="fas fa-@(t.IsActive ? "eye-slash" : "eye")"></i>
+                            </button>
+                        </form>
+                        <form asp-area="Admin" asp-controller="Testimonials" asp-action="Delete" asp-route-id="@t.Id" method="post" style="display:inline" onsubmit="return confirm('Bu yorumu silmek istiyor musunuz?')">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
