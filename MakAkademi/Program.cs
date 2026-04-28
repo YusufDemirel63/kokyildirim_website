@@ -103,6 +103,16 @@ using (var scope = app.Services.CreateScope())
 
     if (!await roleManager.RoleExistsAsync("Admin"))
         await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+    if (await userManager.FindByNameAsync("admin") == null)
+    {
+        var adminUser = new IdentityUser { UserName = "admin", Email = "admin@makakademi.com", EmailConfirmed = true };
+        var result = await userManager.CreateAsync(adminUser, "Mak123456!");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
 }
 
 app.Run();
